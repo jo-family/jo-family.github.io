@@ -1,0 +1,50 @@
+# 쉬운 인터넷 설치 (부모님 PC) - 조조 2026-11-24
+$ErrorActionPreference = 'Continue'
+$url  = 'https://jo-family.github.io/parents/'
+$dir  = Join-Path $env:LOCALAPPDATA 'jojo_easy'
+New-Item -ItemType Directory -Force -Path $dir | Out-Null
+
+# 1. 크롬 찾기
+$chrome = @("$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+            "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe",
+            "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe") | Where-Object { Test-Path $_ } | Select-Object -First 1
+Write-Host "CHROME: $chrome"
+
+# 2. 카카오톡 찾기 + 버튼 연결(현재 사용자에게만 등록)
+$kakao = @("${env:ProgramFiles(x86)}\Kakao\KakaoTalk\KakaoTalk.exe",
+           "$env:ProgramFiles\Kakao\KakaoTalk\KakaoTalk.exe",
+           "$env:LOCALAPPDATA\Kakao\KakaoTalk\KakaoTalk.exe") | Where-Object { Test-Path $_ } | Select-Object -First 1
+if (-not $kakao) {
+  $kakao = Get-ChildItem 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall','HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall','HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall' -ErrorAction SilentlyContinue |
+    ForEach-Object { Get-ItemProperty $_.PSPath } | Where-Object { $_.DisplayName -like '*KakaoTalk*' -or $_.DisplayName -like '*카카오톡*' } |
+    ForEach-Object { if ($_.InstallLocation) { Join-Path $_.InstallLocation 'KakaoTalk.exe' } elseif ($_.DisplayIcon) { ($_.DisplayIcon -split ',')[0].Trim('"') } } |
+    Where-Object { $_ -and (Test-Path $_) } | Select-Object -First 1
+}
+Write-Host "KAKAO: $kakao"
+if ($kakao) {
+  $k = 'HKCU:\Software\Classes\jojokakao'
+  New-Item -Path "$k\shell\open\command" -Force | Out-Null
+  Set-ItemProperty -Path $k -Name '(default)' -Value 'URL:jojokakao'
+  Set-ItemProperty -Path $k -Name 'URL Protocol' -Value ''
+  Set-ItemProperty -Path "$k\shell\open\command" -Name '(default)' -Value ('"' + $kakao + '"')
+  Write-Host 'KAKAO LINK: OK'
+}
+
+# 3. 아이콘 받기
+try { Invoke-WebRequest -UseBasicParsing -Uri ($url + 'icon.ico') -OutFile (Join-Path $dir 'icon.ico'); Write-Host 'ICON: OK' } catch { Write-Host "ICON: FAIL $_" }
+
+# 4. 바로가기 (바탕화면 + 시작 메뉴)
+$ws = New-Object -ComObject WScript.Shell
+$targets = @([Environment]::GetFolderPath('Desktop'), (Join-Path ([Environment]::GetFolderPath('Programs')) ''))
+foreach ($t in $targets) {
+  $lnk = $ws.CreateShortcut((Join-Path $t '쉬운 인터넷.lnk'))
+  $lnk.TargetPath = $chrome
+  $lnk.Arguments = "--app=$url --start-maximized"
+  $lnk.WorkingDirectory = Split-Path $chrome
+  if (Test-Path (Join-Path $dir 'icon.ico')) { $lnk.IconLocation = (Join-Path $dir 'icon.ico') + ',0' }
+  $lnk.Description = '쉬운 인터넷'
+  $lnk.Save()
+  Write-Host "SHORTCUT: $t"
+}
+Write-Host ''
+Write-Host 'DONE - 끝났습니다. 이 창은 닫아도 됩니다.'
