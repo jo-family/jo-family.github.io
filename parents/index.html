@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="app-version" content="v1.0">
+<meta name="app-version" content="v1.1">
 <title>쉬운 인터넷</title>
 <link rel="icon" href="icon.png">
 <link rel="manifest" href="manifest.json">
@@ -33,7 +33,23 @@
   .ds{font-size:min(3.4vh,2.1vw);font-weight:700;opacity:.95;text-align:center}
   .yt{background:#e62117}.nv{background:#03a94f}a.tile.gg{background:#fff;color:#1a1a1a;border-color:#c8ccd3}
   a.tile.kk{background:#fee500;color:#191919}.wt{background:#1c7ed6}.nw{background:#25324d}
-  .tr{background:#a3339b}.mp{background:#0b8c84}
+  .tr{background:#a3339b}.hp{background:#d9480f}
+  #help{position:fixed;inset:0;background:#fff;z-index:8;display:none;flex-direction:column;padding:18px 34px;gap:14px;overflow:auto}
+  #help h2{font-size:44px;font-weight:800;letter-spacing:-1px}
+  .step{display:flex;align-items:center;gap:20px;font-size:32px;font-weight:700;line-height:1.35}
+  .step b.n{flex:none;width:62px;height:62px;border-radius:50%;background:#1c4fa3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px}
+  .blue{display:inline-block;background:#1a73e8;color:#fff;border-radius:10px;padding:2px 14px;white-space:nowrap}
+  .warn{color:#c92a2a;font-weight:800;white-space:nowrap}
+  #codeIn{font-size:60px;font-weight:800;letter-spacing:5px;width:min(640px,60%);height:96px;border:4px solid #1c4fa3;border-radius:18px;padding:0 22px;font-family:Consolas,monospace;color:#111}
+  .row{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .big{font-size:34px;font-weight:800;border:0;border-radius:18px;padding:0 34px;height:96px;cursor:pointer}
+  #sendBtn{background:#2b8a3e;color:#fff}#sendBtn:disabled{background:#adb5bd;color:#fff;cursor:default}
+  #reopen{background:#e7f0ff;color:#1c4fa3;border:3px solid #1c4fa3;height:76px;font-size:28px}
+  #closeHelp{background:#343a40;color:#fff}
+  #kakaoBtn{background:#fee500;color:#191919;height:76px;font-size:28px}
+  #result{font-size:34px;font-weight:800;line-height:1.35;min-height:46px}
+  #result.ok{color:#2b8a3e}#result.bad{color:#c92a2a}
+  .sub{font-size:26px;font-weight:700;color:#333;line-height:1.4}
   #msg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9}
   #msg div{background:#fff;border-radius:24px;padding:40px 60px;font-size:48px;font-weight:800;text-align:center}
   #msg small{display:block;font-size:26px;font-weight:700;color:#333;margin-top:14px}
@@ -43,7 +59,7 @@
 <header>
   <div class="hl">
     <h1>보고 싶은 곳을 한 번 눌러 주세요</h1>
-    <span class="ver">v1.0 · 2026-11-24 20:10 업데이트</span>
+    <span class="ver">v1.1 · 2026-11-24 20:17 업데이트</span>
   </div>
   <div class="clock"><div class="d" id="d"></div><div class="t" id="t"></div></div>
 </header>
@@ -69,10 +85,20 @@
   <a class="tile tr" href="https://www.youtube.com/results?search_query=%ED%8A%B8%EB%A1%9C%ED%8A%B8+%EB%85%B8%EB%9E%98%EB%AA%A8%EC%9D%8C" data-name="트로트 노래">
     <span class="ic"><svg viewBox="0 0 100 100"><path d="M38 18v46a14 14 0 1 0 8 13V36l34-8v28a14 14 0 1 0 8 13V10z" fill="#fff"/></svg></span>
     <span class="nm">트로트 노래</span><span class="ds">노래 모음 듣기</span></a>
-  <a class="tile mp" href="https://map.naver.com/" data-name="지도">
-    <span class="ic"><svg viewBox="0 0 100 100"><path d="M50 8a28 28 0 0 0-28 28c0 21 28 56 28 56s28-35 28-56A28 28 0 0 0 50 8z" fill="#fff"/><circle cx="50" cy="36" r="11" fill="#0b8c84"/></svg></span>
-    <span class="nm">지도</span><span class="ds">길 찾기</span></a>
+  <a class="tile hp" href="#help" data-name="도움 요청" id="helpTile">
+    <span class="ic"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#fff"/><text x="50" y="68" font-size="54" font-weight="900" fill="#d9480f" text-anchor="middle" font-family="Malgun Gothic,Arial">?</text></svg></span>
+    <span class="nm">혜영이에게<br>도움 요청</span><span class="ds">컴퓨터가 안 될 때</span></a>
 </main>
+<section id="help">
+  <div class="row" style="justify-content:space-between"><h2>혜영이에게 컴퓨터 도움 요청</h2><button class="big" id="closeHelp">처음 화면으로</button></div>
+  <div class="step"><b class="n">1</b><span>새로 열린 창에서 파란 <span class="blue">코드 생성</span> 단추를 누르세요.<br><span class="sub">숫자 12자리가 나오면 아래 작업표시줄의 네모 4개 그림(쉬운 인터넷)을 눌러 이 화면으로 돌아오세요.</span></span></div>
+  <div class="row" style="padding-left:82px"><button class="big" id="reopen">코드 만드는 창 다시 열기</button></div>
+  <div class="step"><b class="n">2</b><span>나온 숫자 12자리를 칸에 쓰고 초록 단추를 누르세요. <span class="warn">(5분 안에)</span></span></div>
+  <div class="row" style="padding-left:82px"><input id="codeIn" inputmode="numeric" autocomplete="off" placeholder="0000 0000 0000"><button class="big" id="sendBtn" disabled>혜영이에게 보내기</button></div>
+  <div id="result" style="padding-left:82px"></div>
+  <div class="row" style="padding-left:82px"><span class="sub">잘 안 되면 카카오톡으로 혜영이에게 숫자 12자리를 보내 주세요.</span><button class="big" id="kakaoBtn">카카오톡 열기</button></div>
+</section>
+
 <div id="msg"><div><span id="mt">열고 있어요</span><small>잠시만 기다려 주세요</small></div></div>
 <script>
   var W=['일','월','화','수','목','금','토'];
@@ -81,6 +107,21 @@
     var h=n.getHours(),m=n.getMinutes();
     document.getElementById('t').textContent=(h<12?'오전 ':'오후 ')+((h%12)||12)+':'+(m<10?'0':'')+m;}
   tick();setInterval(tick,10000);
+
+  var RELAY='https://script.google.com/macros/s/AKfycbzpViurS1QI6mjKHfmDnpoDnVuiD3zCfXYE_TYXw8DjYD1zBwwnn0kLdIyCY0Im3isHuQ/exec', SUPPORT='https://remotedesktop.google.com/support';
+  var help=document.getElementById('help'), ci=document.getElementById('codeIn'), sb=document.getElementById('sendBtn'), rs=document.getElementById('result');
+  function openHelp(){ help.style.display='flex'; ci.value=''; sb.disabled=true; rs.textContent=''; rs.className=''; window.open(SUPPORT,'_blank'); setTimeout(function(){ci.focus();},300); }
+  document.getElementById('closeHelp').onclick=function(){ help.style.display='none'; };
+  document.getElementById('reopen').onclick=function(){ window.open(SUPPORT,'_blank'); };
+  document.getElementById('kakaoBtn').onclick=function(){ location.href='jojokakao://open'; };
+  ci.addEventListener('input',function(){ var d=ci.value.replace(/\D/g,'').slice(0,12); ci.value=d.replace(/(\d{4})(?=\d)/g,'$1 '); sb.disabled=d.length!==12; rs.textContent=d.length&&d.length<12?('숫자 '+d.length+'개 / 12개'):''; rs.className=''; });
+  sb.onclick=function(){ var d=ci.value.replace(/\D/g,''); if(d.length!==12) return; sb.disabled=true; rs.className=''; rs.textContent='보내는 중입니다...';
+    var test=/[?&]test=1/.test(location.search)?'&test=1':'';
+    fetch(RELAY+'?code='+d+test).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ rs.className='ok'; rs.innerHTML='보냈어요. 혜영이가 곧 연결해요.<br>화면에 「공유」 단추가 뜨면 눌러 주세요.'; }
+      else { rs.className='bad'; rs.textContent='보내지 못했어요. 숫자를 다시 확인하거나 카카오톡으로 보내 주세요.'; sb.disabled=false; }
+    }).catch(function(){ rs.className='bad'; rs.textContent='보내지 못했어요. 카카오톡으로 숫자를 보내 주세요.'; sb.disabled=false; });
+  };
   var busy=false,msg=document.getElementById('msg');
   document.querySelectorAll('a.tile').forEach(function(a){
     a.addEventListener('click',function(e){
@@ -89,7 +130,8 @@
       busy=true;
       document.getElementById('mt').textContent=a.dataset.name+' 여는 중';
       msg.style.display='flex';
-      if(a.href.indexOf('jojokakao:')===0){location.href=a.href;}
+      if(a.id==='helpTile'){openHelp();msg.style.display='none';}
+      else if(a.href.indexOf('jojokakao:')===0){location.href=a.href;}
       else{window.open(a.href,'_blank');}
       setTimeout(function(){msg.style.display='none';busy=false;},2500);
     });
