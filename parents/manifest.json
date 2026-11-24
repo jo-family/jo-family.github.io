@@ -1,0 +1,15 @@
+{
+ "name": "쉬운 인터넷",
+ "short_name": "쉬운 인터넷",
+ "start_url": "./",
+ "display": "standalone",
+ "background_color": "#eef0f3",
+ "theme_color": "#22396F",
+ "icons": [
+  {
+   "src": "icon.png",
+   "sizes": "256x256",
+   "type": "image/png"
+  }
+ ]
+}
