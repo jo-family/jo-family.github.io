@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="app-version" content="v1.1">
+<meta name="app-version" content="v1.2">
 <title>쉬운 인터넷</title>
 <link rel="icon" href="icon.png">
 <link rel="manifest" href="manifest.json">
@@ -20,7 +20,7 @@
   .clock{text-align:right;white-space:nowrap}
   .clock .d{font-size:28px;font-weight:700}
   .clock .t{font-size:44px;font-weight:800;line-height:1.1}
-  main{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);
+  main{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));
     gap:22px;padding:22px 28px 26px;min-height:0}
   a.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
     border-radius:28px;text-decoration:none;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.18);
@@ -30,10 +30,11 @@
   .ic{width:min(15vh,13vw);height:min(15vh,13vw);display:flex;align-items:center;justify-content:center}
   .ic svg{width:100%;height:100%}
   .nm{font-size:min(7.2vh,4.6vw);font-weight:800;letter-spacing:-1px;line-height:1.1;text-align:center}
+  .long .nm{font-size:min(6.4vh,3.4vw);white-space:nowrap}
   .ds{font-size:min(3.4vh,2.1vw);font-weight:700;opacity:.95;text-align:center}
   .yt{background:#e62117}.nv{background:#03a94f}a.tile.gg{background:#fff;color:#1a1a1a;border-color:#c8ccd3}
   a.tile.kk{background:#fee500;color:#191919}.wt{background:#1c7ed6}.nw{background:#25324d}
-  .tr{background:#a3339b}.hp{background:#d9480f}
+  .tr{background:#a3339b}.hp{background:#d9480f}.ph{background:#0c8599}.gm{background:#5f3dc4}
   #help{position:fixed;inset:0;background:#fff;z-index:8;display:none;flex-direction:column;padding:18px 34px;gap:14px;overflow:auto}
   #help h2{font-size:44px;font-weight:800;letter-spacing:-1px}
   .step{display:flex;align-items:center;gap:20px;font-size:32px;font-weight:700;line-height:1.35}
@@ -59,7 +60,7 @@
 <header>
   <div class="hl">
     <h1>보고 싶은 곳을 한 번 눌러 주세요</h1>
-    <span class="ver">v1.1 · 2026-11-24 20:17 업데이트</span>
+    <span class="ver">v1.2 · 2026-11-24 20:42 업데이트</span>
   </div>
   <div class="clock"><div class="d" id="d"></div><div class="t" id="t"></div></div>
 </header>
@@ -70,27 +71,27 @@
   <a class="tile nv" href="https://www.naver.com/" data-name="네이버">
     <span class="ic"><svg viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="18" fill="#fff"/><path d="M28 26h15l15 22V26h14v48H57L43 52v22H28z" fill="#03a94f"/></svg></span>
     <span class="nm">네이버</span><span class="ds">검색 · 소식</span></a>
-  <a class="tile gg" href="https://www.google.co.kr/" data-name="구글">
-    <span class="ic"><svg viewBox="0 0 100 100"><path d="M90 51c0-3-.3-5.8-.8-8.5H50v16.2h22.4c-1 5.2-4 9.6-8.4 12.6v10.4h13.6C85.4 74.5 90 63.8 90 51z" fill="#4285f4"/><path d="M50 92c11.3 0 20.8-3.7 27.6-10.2L64 71.3c-3.7 2.5-8.5 4-14 4-10.8 0-19.9-7.3-23.2-17H12.8v10.7C19.6 82.6 33.8 92 50 92z" fill="#34a853"/><path d="M26.8 58.3c-.8-2.5-1.3-5.2-1.3-8s.5-5.5 1.3-8V31.6H12.8C10 37.2 8.4 43.6 8.4 50.3s1.6 13.1 4.4 18.7z" fill="#fbbc05"/><path d="M50 25.4c6.1 0 11.6 2.1 15.9 6.2l11.9-11.9C70.8 13.1 61.3 8.6 50 8.6c-16.2 0-30.4 9.4-37.2 23l14 10.7c3.3-9.7 12.4-16.9 23.2-16.9z" fill="#ea4335"/></svg></span>
-    <span class="nm">구글</span><span class="ds">검색하기</span></a>
+  <a class="tile ph long" href="ms-phone:" data-name="전화" id="phoneTile">
+    <span class="ic"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#fff"/><path d="M36 24c2-1 5 0 6 2l5 11c1 2 0 4-1 6l-4 4c3 7 8 12 15 15l4-4c2-1 4-2 6-1l11 5c2 1 3 4 2 6l-3 7c-1 3-4 4-7 4-23-2-40-19-42-42 0-3 1-6 4-7z" fill="#0c8599"/></svg></span>
+    <span class="nm">PC로 전화하기</span><span class="ds">휴대폰과 연결</span></a>
   <a class="tile kk" href="jojokakao://open" data-name="카카오톡">
     <span class="ic"><svg viewBox="0 0 100 100"><path d="M50 14C26 14 8 28.5 8 46.5c0 11.6 7.7 21.7 19.3 27.5L23 90l18.5-12.3c2.8.4 5.6.6 8.5.6 24 0 42-14.5 42-32.5S74 14 50 14z" fill="#3c1e1e"/><text x="50" y="55" font-size="18" font-weight="900" fill="#fee500" text-anchor="middle" font-family="Arial">TALK</text></svg></span>
     <span class="nm">카카오톡</span><span class="ds">대화 · 사진 보기</span></a>
   <a class="tile wt" href="https://weather.naver.com/" data-name="날씨">
     <span class="ic"><svg viewBox="0 0 100 100"><circle cx="38" cy="38" r="18" fill="#ffd43b"/><path d="M30 80h46a16 16 0 0 0 0-32 22 22 0 0 0-42 6A13 13 0 0 0 30 80z" fill="#fff"/></svg></span>
     <span class="nm">날씨</span><span class="ds">오늘 · 내일 날씨</span></a>
-  <a class="tile nw" href="https://news.naver.com/" data-name="뉴스">
-    <span class="ic"><svg viewBox="0 0 100 100"><rect x="10" y="16" width="80" height="68" rx="10" fill="#fff"/><rect x="20" y="28" width="60" height="12" fill="#25324d"/><rect x="20" y="48" width="26" height="24" fill="#9aa6bf"/><rect x="52" y="48" width="28" height="6" fill="#25324d"/><rect x="52" y="60" width="28" height="6" fill="#25324d"/></svg></span>
-    <span class="nm">뉴스</span><span class="ds">오늘 소식</span></a>
-  <a class="tile tr" href="https://www.youtube.com/results?search_query=%ED%8A%B8%EB%A1%9C%ED%8A%B8+%EB%85%B8%EB%9E%98%EB%AA%A8%EC%9D%8C" data-name="트로트 노래">
+  <a class="tile gm" href="games.html" data-name="게임" id="gameTile">
+    <span class="ic"><svg viewBox="0 0 100 100"><rect x="8" y="22" width="40" height="56" rx="8" fill="#fff"/><rect x="52" y="22" width="40" height="56" rx="8" fill="#fff"/><circle cx="28" cy="50" r="11" fill="#e03131"/><circle cx="72" cy="50" r="11" fill="#e03131"/></svg></span>
+    <span class="nm">게임</span><span class="ds">그림 맞추기 · 숫자</span></a>
+  <a class="tile tr long" href="https://www.youtube.com/results?search_query=%ED%8A%B8%EB%A1%9C%ED%8A%B8+%EB%85%B8%EB%9E%98%EB%AA%A8%EC%9D%8C" data-name="트로트 노래">
     <span class="ic"><svg viewBox="0 0 100 100"><path d="M38 18v46a14 14 0 1 0 8 13V36l34-8v28a14 14 0 1 0 8 13V10z" fill="#fff"/></svg></span>
     <span class="nm">트로트 노래</span><span class="ds">노래 모음 듣기</span></a>
-  <a class="tile hp" href="#help" data-name="도움 요청" id="helpTile">
+  <a class="tile hp long" href="#help" data-name="고장수리요청" id="helpTile">
     <span class="ic"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#fff"/><text x="50" y="68" font-size="54" font-weight="900" fill="#d9480f" text-anchor="middle" font-family="Malgun Gothic,Arial">?</text></svg></span>
-    <span class="nm">혜영이에게<br>도움 요청</span><span class="ds">컴퓨터가 안 될 때</span></a>
+    <span class="nm">고장수리요청</span><span class="ds">컴퓨터가 안 될 때</span></a>
 </main>
 <section id="help">
-  <div class="row" style="justify-content:space-between"><h2>혜영이에게 컴퓨터 도움 요청</h2><button class="big" id="closeHelp">처음 화면으로</button></div>
+  <div class="row" style="justify-content:space-between"><h2>고장수리요청</h2><button class="big" id="closeHelp">처음 화면으로</button></div>
   <div class="step"><b class="n">1</b><span>새로 열린 창에서 파란 <span class="blue">코드 생성</span> 단추를 누르세요.<br><span class="sub">숫자 12자리가 나오면 아래 작업표시줄의 네모 4개 그림(쉬운 인터넷)을 눌러 이 화면으로 돌아오세요.</span></span></div>
   <div class="row" style="padding-left:82px"><button class="big" id="reopen">코드 만드는 창 다시 열기</button></div>
   <div class="step"><b class="n">2</b><span>나온 숫자 12자리를 칸에 쓰고 초록 단추를 누르세요. <span class="warn">(5분 안에)</span></span></div>
@@ -131,7 +132,8 @@
       document.getElementById('mt').textContent=a.dataset.name+' 여는 중';
       msg.style.display='flex';
       if(a.id==='helpTile'){openHelp();msg.style.display='none';}
-      else if(a.href.indexOf('jojokakao:')===0){location.href=a.href;}
+      else if(a.id==='gameTile'){location.href='games.html';}
+      else if(a.href.indexOf('jojokakao:')===0||a.href.indexOf('ms-phone:')===0){location.href=a.href;}
       else{window.open(a.href,'_blank');}
       setTimeout(function(){msg.style.display='none';busy=false;},2500);
     });

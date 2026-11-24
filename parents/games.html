@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>쉬운 게임</title>
+<link rel="icon" href="icon.png">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:"Malgun Gothic","맑은 고딕",sans-serif;background:#eef0f3;color:#111;display:flex;flex-direction:column;
+    word-break:keep-all;user-select:none;overflow:hidden}
+  header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 28px;background:#fff;border-bottom:2px solid #d5d9e0}
+  .hl{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap}
+  h1{font-size:42px;font-weight:800;letter-spacing:-1px;white-space:nowrap}
+  .ver{font-size:17px;color:#444;font-weight:600;white-space:nowrap}
+  .btn{font-family:inherit;font-size:32px;font-weight:800;border:0;border-radius:18px;padding:0 30px;height:80px;cursor:pointer;white-space:nowrap}
+  .home{background:#343a40;color:#fff}
+  main{flex:1;min-height:0;padding:22px 28px;display:flex;flex-direction:column;gap:18px}
+  .screen{display:none;flex:1;min-height:0;flex-direction:column;gap:18px}
+  .screen.on{display:flex}
+  /* 시작 화면 */
+  .pick{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .pick button{font-family:inherit;border:0;border-radius:28px;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 6px 0 rgba(0,0,0,.18)}
+  .pick button:active{transform:translateY(3px)}
+  .pick .pic{font-size:min(16vh,10vw);line-height:1}
+  .pick .nm{font-size:min(8vh,5vw);font-weight:800}
+  .pick .ds{font-size:min(3.6vh,2.3vw);font-weight:700}
+  #goMemory{background:#2b8a3e}#goNumber{background:#1c4fa3}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .say{font-size:38px;font-weight:800}
+  .again{background:#e67700;color:#fff}
+  .back{background:#e7f0ff;color:#1c4fa3;border:3px solid #1c4fa3}
+  /* 같은 그림 찾기 */
+  #board{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:20px}
+  .card{border:0;border-radius:24px;cursor:pointer;font-size:min(17vh,9vw);display:flex;align-items:center;justify-content:center;
+    background:#22396F;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.2);font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif}
+  .card .q{font-family:"Malgun Gothic",sans-serif;font-weight:800;color:#FCF1D0;font-size:min(12vh,7vw)}
+  .card.open{background:#fff;border:5px solid #22396F}
+  .card.done{background:#d3f9d8;border:5px solid #2b8a3e;cursor:default}
+  /* 숫자 순서 */
+  #nums{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:16px;max-width:1000px;width:100%;margin:0 auto}
+  .num{border:0;border-radius:22px;background:#fff;border:4px solid #1c4fa3;color:#111;font-family:inherit;font-weight:900;font-size:min(9vh,6vw);cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.15)}
+  .num.done{background:#d3f9d8;border-color:#2b8a3e;color:#2b8a3e}
+  .num.no{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+  .next{display:inline-block;background:#1c4fa3;color:#fff;border-radius:14px;padding:0 18px;min-width:70px;text-align:center}
+  #win{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9}
+  #win div{background:#fff;border-radius:28px;padding:44px 60px;text-align:center;display:flex;flex-direction:column;gap:24px;align-items:center}
+  #win b{font-size:60px;font-weight:900;color:#2b8a3e}
+  #win span{font-size:32px;font-weight:700}
+  #win .row{display:flex;gap:18px}
+</style>
+</head>
+<body>
+<header>
+  <div class="hl"><h1 id="title">쉬운 게임</h1><span class="ver">v1.0 · 2026-11-24 20:42 업데이트</span></div>
+  <button class="btn home" onclick="location.href='./'">처음 화면으로</button>
+</header>
+<main>
+  <section class="screen on" id="sPick">
+    <div class="say">하고 싶은 게임을 눌러 주세요</div>
+    <div class="pick">
+      <button id="goMemory"><span class="pic">🍎🍎</span><span class="nm">같은 그림 찾기</span><span class="ds">카드를 두 장씩 뒤집어요</span></button>
+      <button id="goNumber"><span class="pic" style="font-family:inherit;font-weight:900">1 2 3</span><span class="nm">숫자 차례로 누르기</span><span class="ds">1부터 9까지 차례로 눌러요</span></button>
+    </div>
+  </section>
+
+  <section class="screen" id="sMemory">
+    <div class="bar"><div class="say" id="memSay">같은 그림 두 장을 찾아 주세요</div>
+      <div style="display:flex;gap:14px"><button class="btn again" id="memAgain">새로 하기</button><button class="btn back" onclick="show('sPick')">게임 고르기</button></div></div>
+    <div id="board"></div>
+  </section>
+
+  <section class="screen" id="sNumber">
+    <div class="bar"><div class="say">이번에 누를 숫자 <span class="next" id="nextNum">1</span></div>
+      <div style="display:flex;gap:14px"><button class="btn again" id="numAgain">새로 하기</button><button class="btn back" onclick="show('sPick')">게임 고르기</button></div></div>
+    <div id="nums"></div>
+  </section>
+</main>
+<div id="win"><div><b>잘하셨어요!</b><span id="winMsg"></span>
+  <div class="row"><button class="btn again" id="winAgain">한 번 더</button><button class="btn back" id="winPick">게임 고르기</button></div></div></div>
+<script>
+  function $(id){return document.getElementById(id);}
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  var cur='';
+  function show(id){['sPick','sMemory','sNumber'].forEach(function(s){$(s).classList.toggle('on',s===id);});cur=id;
+    $('title').textContent=id==='sMemory'?'같은 그림 찾기':id==='sNumber'?'숫자 차례로 누르기':'쉬운 게임';}
+  function win(msg){$('winMsg').textContent=msg;$('win').style.display='flex';}
+  $('winPick').onclick=function(){$('win').style.display='none';show('sPick');};
+  $('winAgain').onclick=function(){$('win').style.display='none';if(cur==='sMemory')startMemory();else startNumber();};
+
+  // 같은 그림 찾기: 8장(4쌍)
+  var PICS=['🍎','🍌','🍇','🍓','🌻','🐶','🐟','🚗','🍉','⭐'];
+  var first=null,lock=false,found=0,tries=0;
+  function startMemory(){
+    show('sMemory');$('memSay').textContent='같은 그림 두 장을 찾아 주세요';
+    var p=shuffle(PICS.slice()).slice(0,4);var deck=shuffle(p.concat(p));
+    var b=$('board');b.innerHTML='';first=null;lock=false;found=0;tries=0;
+    deck.forEach(function(pic){var c=document.createElement('button');c.className='card';c.dataset.pic=pic;
+      c.innerHTML='<span class="q">?</span>';c.onclick=function(){flip(c);};b.appendChild(c);});
+  }
+  function flip(c){
+    if(lock||c.classList.contains('open')||c.classList.contains('done'))return;
+    c.classList.add('open');c.textContent=c.dataset.pic;
+    if(!first){first=c;return;}
+    tries++;
+    if(first.dataset.pic===c.dataset.pic){
+      first.classList.add('done');c.classList.add('done');first=null;found++;
+      $('memSay').textContent='맞았어요! '+found+'쌍 찾음';
+      if(found===4)setTimeout(function(){win(tries+'번 만에 모두 찾으셨어요');},600);
+    }else{
+      lock=true;var a=first;first=null;$('memSay').textContent='달라요. 다시 해 보세요';
+      setTimeout(function(){[a,c].forEach(function(x){x.classList.remove('open');x.innerHTML='<span class="q">?</span>';});lock=false;},1300);
+    }
+  }
+  $('goMemory').onclick=startMemory;$('memAgain').onclick=startMemory;
+
+  // 숫자 차례로 누르기: 1~9
+  var want=1,t0=0;
+  function startNumber(){
+    show('sNumber');want=1;$('nextNum').textContent='1';t0=Date.now();
+    var g=$('nums');g.innerHTML='';
+    shuffle([1,2,3,4,5,6,7,8,9]).forEach(function(n){var x=document.createElement('button');x.className='num';x.textContent=n;
+      x.onclick=function(){
+        if(x.classList.contains('done'))return;
+        if(n===want){x.classList.add('done');want++;
+          if(want>9){$('nextNum').textContent='끝';var s=Math.round((Date.now()-t0)/1000);setTimeout(function(){win(s+'초 걸렸어요');},400);}
+          else $('nextNum').textContent=want;}
+        else{x.classList.remove('no');void x.offsetWidth;x.classList.add('no');}
+      };g.appendChild(x);});
+  }
+  $('goNumber').onclick=startNumber;$('numAgain').onclick=startNumber;
+</script>
+</body>
+</html>
