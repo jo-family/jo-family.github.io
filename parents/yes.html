@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>혜영이가 컴퓨터를 고치는 중</title>
+<link rel="icon" href="icon.png">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:"Malgun Gothic","맑은 고딕",sans-serif;background:#fff8e6;color:#111;word-break:keep-all;overflow:hidden;display:flex;flex-direction:column}
+  header{background:#d9480f;color:#fff;padding:14px 30px;display:flex;align-items:baseline;justify-content:space-between;gap:20px}
+  header h1{font-size:min(6.2vh,3.4vw);font-weight:900;letter-spacing:-1px}
+  header .ver{font-size:17px;font-weight:700;opacity:.95;white-space:nowrap}
+  main{flex:1;min-height:0;display:grid;grid-template-columns:1.05fr 1fr;gap:28px;padding:22px 30px}
+  .steps{display:flex;flex-direction:column;justify-content:space-around;gap:14px}
+  .st{display:flex;gap:20px;align-items:flex-start}
+  .n{flex:none;width:min(9vh,5vw);height:min(9vh,5vw);border-radius:50%;background:#1c4fa3;color:#fff;font-size:min(6vh,3.4vw);font-weight:900;display:flex;align-items:center;justify-content:center}
+  .t{font-size:min(5.6vh,3.1vw);font-weight:800;line-height:1.3}
+  .t em{font-style:normal;background:#1a73e8;color:#fff;border-radius:12px;padding:0 16px;white-space:nowrap}
+  .t small{display:block;font-size:min(3.6vh,2vw);font-weight:700;color:#333;margin-top:6px}
+  /* 윈도우 확인 창 그림 */
+  .pic{position:relative;display:flex;align-items:center;justify-content:center;background:#555;border-radius:24px;padding:4vh 2vw}
+  .pic .lbl{position:absolute;top:14px;left:20px;color:#fff;font-size:min(3.2vh,1.8vw);font-weight:800}
+  .uac{width:100%;max-width:640px;background:#1f3f6e;color:#fff;border:2px solid #9fb6d8;box-shadow:0 12px 40px rgba(0,0,0,.5);font-family:"Segoe UI","Malgun Gothic",sans-serif}
+  .uac .bar{font-size:min(2.6vh,1.4vw);padding:8px 14px;background:#183256}
+  .uac .q{font-size:min(4.2vh,2.3vw);font-weight:600;padding:18px 22px 10px;line-height:1.3}
+  .uac .app{display:flex;gap:14px;align-items:center;padding:8px 22px 18px;font-size:min(3vh,1.7vw)}
+  .uac .app i{width:min(6vh,3.4vw);height:min(6vh,3.4vw);background:#012456;border:2px solid #fff;border-radius:6px;display:inline-block}
+  .uac .btns{display:flex;gap:14px;padding:16px 22px 22px;background:#183256}
+  .uac .btns div{flex:1;text-align:center;font-size:min(4vh,2.2vw);font-weight:700;padding:10px 0;background:#e5e5e5;color:#111;border:2px solid #aaa}
+  .uac .btns .yes{outline:8px solid #ffd43b;outline-offset:4px;position:relative}
+  .arrow{position:absolute;left:50%;transform:translateX(-50%);bottom:-0.5vh;font-size:min(6vh,3.4vw);font-weight:900;color:#ffd43b;white-space:nowrap;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+  .yes .tag{position:absolute;left:50%;top:calc(100% + 12px);transform:translateX(-50%);background:#ffd43b;color:#111;font-size:min(4.4vh,2.4vw);font-weight:900;padding:4px 18px;border-radius:12px;white-space:nowrap}
+  .yes .tag:before{content:"";position:absolute;left:50%;top:-18px;transform:translateX(-50%);border:10px solid transparent;border-bottom:10px solid #ffd43b}
+  footer{background:#fff;border-top:3px solid #e9c46a;padding:12px 30px;display:flex;align-items:center;gap:22px}
+  footer .t{font-size:min(4vh,2.2vw)}
+  .mini{flex:none;background:#fff;border:2px solid #888;box-shadow:0 4px 14px rgba(0,0,0,.25);font-size:min(2.4vh,1.3vw);width:min(46vh,26vw)}
+  .mini .h{background:#eee;padding:4px 8px}
+  .mini .b{padding:8px}
+  .mini .r{display:flex;gap:8px;margin-top:8px}
+  .mini .r span{flex:1;text-align:center;border:1px solid #999;padding:3px 0;background:#f4f4f4}
+  .mini .r .go{outline:5px solid #e03131;outline-offset:2px;font-weight:900}
+</style>
+</head>
+<body>
+<header><h1>혜영이가 컴퓨터를 고치고 있어요</h1><span class="ver">v1.0 · 2026-11-26 08:56 업데이트</span></header>
+<main>
+  <section class="steps">
+    <div class="st"><b class="n">1</b><div class="t">잠시 뒤 화면이 <b>어두워지고</b><br>가운데에 <b>파란 창</b>이 뜹니다.</div></div>
+    <div class="st"><b class="n">2</b><div class="t">그 창 아래 왼쪽의 <em>예</em> 단추를<br>한 번 눌러 주세요.<small>「아니요」는 누르지 마세요.</small></div></div>
+    <div class="st"><b class="n">3</b><div class="t">그다음은 아무것도<br>안 누르셔도 돼요.<small>혜영이가 알아서 마무리합니다.</small></div></div>
+  </section>
+  <section class="pic">
+    <span class="lbl">이렇게 생긴 창이 뜹니다</span>
+    <div class="uac">
+      <div class="bar">사용자 계정 컨트롤</div>
+      <div class="q">이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?</div>
+      <div class="app"><i></i><span>Windows PowerShell<br>확인된 게시자: Microsoft Windows</span></div>
+      <div class="btns"><div class="yes">예<span class="tag">여기를 누르세요</span></div><div>아니요</div></div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="mini"><div class="h">Chrome 원격 데스크톱</div><div class="b">현재 이 컴퓨터를 다른 사용자와 공유하고 있습니다. 계속 공유하시겠습니까?<div class="r"><span>공유 중지</span><span class="go">계속</span></div></div></div>
+  <div class="t">화면 <b>왼쪽 위</b>에 이런 작은 창이 뜨면<br>오른쪽 <b style="color:#c92a2a">「계속」</b>을 눌러 주세요.</div>
+</footer>
+</body>
+</html>

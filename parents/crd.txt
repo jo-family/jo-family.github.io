@@ -1,0 +1,25 @@
+# 부모님 PC 크롬 원격 데스크톱 상시 연결 설치 (조조, 2026-11-26)
+# 승인 코드($c)와 PIN($p)은 이 파일에 없고, 실행할 때만 넘겨 받는다.
+$log = Join-Path $env:PUBLIC 'jojo_crd_log.txt'
+"[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] start" | Out-File $log -Encoding utf8
+try {
+  # 이전에 멈춰 있던 설치 창 정리
+  Get-Process remoting_start_host -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+  $exe = "${env:ProgramFiles(x86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe"
+  if (-not (Test-Path $exe)) { "NO_HOST" | Out-File $log -Append -Encoding utf8; return }
+  if (-not $c -or -not $p) { "NO_ARGS" | Out-File $log -Append -Encoding utf8; return }
+  # 이름·PIN을 물어도 자동으로 답하도록 미리 넣어 준다
+  $answers = "Parents-PC`r`n$p`r`n$p`r`n"
+  $out = $answers | & $exe "--code=$c" "--redirect-url=https://remotedesktop.google.com/_/oauthredirect" "--name=Parents-PC" "--pin=$p" 2>&1
+  "exit=$LASTEXITCODE" | Out-File $log -Append -Encoding utf8
+  ($out | Out-String) -replace [regex]::Escape($p), '******' | Out-File $log -Append -Encoding utf8
+  # 전원 연결 시 절전 안 함
+  powercfg /change standby-timeout-ac 0
+  powercfg /change hibernate-timeout-ac 0
+} catch {
+  "ERROR: $($_.Exception.Message)" | Out-File $log -Append -Encoding utf8
+} finally {
+  # 관리자 PowerShell 창이 남아 있으면 닫기 (원격 조작을 막기 때문)
+  Get-Process powershell -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $PID -and $_.MainWindowTitle -like '관리자*' } | Stop-Process -Force -ErrorAction SilentlyContinue
+  "done" | Out-File $log -Append -Encoding utf8
+}
