@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>조조 상황실</title>
+<meta name="theme-color" content="#010736">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-title" content="조조 상황실">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#010736;color:#F6EFDF;font-family:"Pretendard","Malgun Gothic",system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;text-align:center;word-break:keep-all}
+img.logo{width:150px;height:150px;border-radius:34px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+h1{font-size:32px;margin:22px 0 6px;letter-spacing:-.5px}
+p.sub{font-size:18px;color:#E9D9B0;margin:0 0 26px;line-height:1.5}
+a.open{display:block;width:100%;max-width:420px;min-height:64px;line-height:64px;border-radius:16px;background:#F6EFDF;color:#010736;font-size:22px;font-weight:800;text-decoration:none}
+#auto{font-size:17px;color:#E9D9B0;margin-top:16px;min-height:24px}
+.box{margin-top:30px;max-width:420px;width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(233,217,176,.35);border-radius:16px;padding:16px 18px;text-align:left;font-size:17px;line-height:1.65}
+.box b{color:#fff}
+.box h2{font-size:18px;margin:0 0 8px;color:#BF913C}
+a.apk{color:#F6EFDF}
+small{display:block;margin-top:20px;color:#9aa0c0;font-size:14px}
+</style>
+</head><body>
+<img class="logo" src="icon-512.png" alt="">
+<h1>조조 상황실</h1>
+<p class="sub">이혜영 님 개인 상황실<br>(구글 lee1812@naver.com 로그인 필요)</p>
+<a class="open" id="go" href="https://script.google.com/macros/s/AKfycbwmWGgQUkiYOZqbBbigS9RrdteAfOqghM7sCJBSXX2D_dQnKZYS0n_RF4SClI89p9EsWQ/exec">조조 상황실 열기</a>
+<div id="auto"></div>
+<div class="box" id="install">
+<h2>휴대폰에 앱으로 설치</h2>
+<b>방법 1 (APK)</b>: <a class="apk" href="jojo-sitroom.apk">jojo-sitroom.apk 내려받기</a> → 설치 (「출처를 알 수 없는 앱」 허용)<br>
+<b>방법 2 (크롬)</b>: 이 화면에서 크롬 메뉴 ⋮ → 「홈 화면에 추가」 또는 「앱 설치」
+</div>
+<small>v001 · 2026-11-25</small>
+<script>
+(function(){
+  var U="https://script.google.com/macros/s/AKfycbwmWGgQUkiYOZqbBbigS9RrdteAfOqghM7sCJBSXX2D_dQnKZYS0n_RF4SClI89p9EsWQ/exec";
+  var q=new URLSearchParams(location.search);
+  var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone||document.referrer.indexOf('android-app://')===0||q.get('app')==='1';
+  if(standalone){ document.getElementById('install').style.display='none'; }
+  if(standalone && q.get('stay')!=='1'){
+    document.getElementById('auto').textContent='상황실을 여는 중입니다…';
+    setTimeout(function(){ location.replace(U); }, 400);
+  }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+})();
+</script>
+</body></html>

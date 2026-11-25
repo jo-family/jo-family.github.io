@@ -1,0 +1,28 @@
+{
+ "name": "조조 상황실",
+ "short_name": "조조 상황실",
+ "description": "이혜영 님 개인 업무 상황실 (구글 로그인 필요)",
+ "id": "/jojo-sitroom/",
+ "start_url": "/jojo-sitroom/?app=1",
+ "scope": "/jojo-sitroom/",
+ "display": "standalone",
+ "orientation": "any",
+ "lang": "ko",
+ "dir": "ltr",
+ "theme_color": "#010736",
+ "background_color": "#010736",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  }
+ ]
+}
