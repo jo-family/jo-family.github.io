@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.jofamily.jojositroom",
+        "sha256_cert_fingerprints": ["53:8F:D4:B3:C4:FD:DA:D3:55:5A:F8:07:1C:E8:5D:16:43:D4:FA:93:01:17:6B:4C:62:6F:63:9F:70:43:B7:10"]
+      }
+    }]
